@@ -1,0 +1,7 @@
+<div class="list-group">
+  <div class="list-group-item" *ngFor="let pokemon of pokemonList">    
+    <br>
+    <p>{{ pokemon.name }}</p>
+    <button class="detail" (click)="goToDetail(pokemon)">Show Details</button>
+  </div>
+</div>
