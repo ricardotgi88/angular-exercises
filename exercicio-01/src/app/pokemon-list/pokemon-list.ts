@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppService } from '../app.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common'
 import { NamedAPIResource, NamedAPIResourceList } from 'pokenode-ts';
 import { Router } from '@angular/router';
@@ -13,15 +13,13 @@ import { Router } from '@angular/router';
   imports: [CommonModule],
   providers: [AppService],
 })
-export class PokemonList {  
-  private namedAPIResourceList$: Observable<NamedAPIResourceList>;
-  public pokemonList: NamedAPIResource[] = [];
+export class PokemonList {
+  public pokemonList$: Observable<NamedAPIResource[]>;
 
   constructor(
     public appService: AppService, public router: Router
   ) {
-    this.namedAPIResourceList$ = appService.getPokemonList();
-    this.namedAPIResourceList$.subscribe(pokemon => this.pokemonList = pokemon.results);
+    this.pokemonList$ = appService.getPokemonList().pipe(map(pokemon => pokemon.results));
   }
 
   goToDetail(pokemon: NamedAPIResource) {

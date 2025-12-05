@@ -1,5 +1,5 @@
 <div class="list-group">
-  <div class="list-group-item" *ngFor="let pokemon of pokemonList">    
+  <div class="list-group-item" *ngFor="let pokemon of pokemonList$ | async">    
     <br>
     <p>{{ pokemon.name }}</p>
     <button class="detail" (click)="goToDetail(pokemon)">Show Details</button>
