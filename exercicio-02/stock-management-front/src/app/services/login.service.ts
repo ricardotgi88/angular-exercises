@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
 import { LoginStore } from '../stores/login.store';
+import { LoginDataService } from './login-data.service';
+import { switchMap, tap } from 'rxjs';
 
 
 @Injectable({
@@ -10,19 +12,21 @@ import { LoginStore } from '../stores/login.store';
 export class LoginService {
   protected API_LOGIN_URL = 'http://localhost:8181/auth/login';
 
-  constructor(private _http: HttpClient, private loginStore: LoginStore) { }
+  constructor(private loginDataService: LoginDataService, private loginStore: LoginStore) { }
 
 
   submitLogin(login: { username: string; password: string; }) {
+    let res = this.loginDataService.submitLogin(login).pipe(tap(newToken=> {
+      console.log(newToken);
+      this.loginStore.updateToken(newToken);
+    }));
+    
+    return res;
+  }
 
-    let token = this._http.post<string>(
-      this.API_LOGIN_URL,
-      {
-        userName: login.username,
-        password: login.password
-      }
-    );
-    this.loginStore.updateToken(token);
+
+  submitTest() {
+    this.loginDataService.submitTest();
   }
 
 }

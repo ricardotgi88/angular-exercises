@@ -13,7 +13,11 @@ export class LoginComponent {
   constructor(private loginService: LoginService) { }
 
   onSubmitCredentials(username: string, password: string) {
-    this.loginService.submitLogin({ username, password });
+    this.loginService.submitLogin({ username, password }).subscribe();
     //this.formElement()?.nativeElement.reset();
+  }
+
+  onSubmitTest() {
+    this.loginService.submitTest();
   }
 }

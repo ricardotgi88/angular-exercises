@@ -1,7 +1,6 @@
 
 import { Injectable, InjectionToken } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
-import { LoginService } from '../services/login.service';
+import { BehaviorSubject, Observable, switchMap, take, tap } from 'rxjs';
 
 export const DATA_URL = new InjectionToken('DATA_URL');
 
@@ -19,13 +18,7 @@ export class LoginStore {
     private authTokenSub = new BehaviorSubject<string>('');
     public authToken$ = this.authTokenSub.asObservable();
 
-    public updateToken(newToken: Observable<string>) {
-        this.authTokenSub.pipe(
-            switchMap(oldToken => newToken),
-            tap(newToken => {
-                this.authTokenSub.next(newToken);
-                console.log(newToken);
-            })
-        ).subscribe();
+    public updateToken(newTokenObs: string) {
+        this.authTokenSub.next(newTokenObs);
     }
 }
